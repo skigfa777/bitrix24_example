@@ -1,0 +1,16 @@
+stages:
+  - deploy
+
+deploy_dev:
+  stage: deploy
+  only:
+    - dev
+  script: 
+    - rsync -rult --delete-after --exclude=.git/ --exclude=.gitlab-ci.yml --password-file=/etc/rsyncd.scrt $CI_PROJECT_DIR/ rsync_bitrix@217.23.140.242::bitrix24;
+
+deploy_prod:
+  stage: deploy
+  only:
+    - main
+  script: 
+    - rsync -rult --delete-after --exclude=.git/ --exclude=.gitlab-ci.yml --password-file=/etc/rsyncd.scrt $CI_PROJECT_DIR/ rsync_bitrix@217.23.140.241::bitrix24;
